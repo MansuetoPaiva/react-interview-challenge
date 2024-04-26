@@ -17,15 +17,40 @@ import { useState } from 'react';
 export default function LoginForm() {
   const [email, setEmail] = useState('');  
   const [password, setPassword] = useState('');  
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+
+  const handleClick = () => {
+    setLoading(true);
+    
+    login({email: 'mail@mail.com', password: '123'})
+      .then(() => {
+        window.alert('Login efetuado com sucesso!')
+      })
+      .catch((err) => {
+        setErrorMessage(err.message)
+      })
+      .finally(() => 
+        setLoading(false)
+      )
+    
+  }
+
   // só caso o e-mail esteja em branco OU a senha for menor que 6 dígitos
-  const disabled = email == '' || password.length < 6;  
+  const disabled = loading || email == '' || password.length < 6;  
 
   return (
     <div className='wrapper'>
       <div className='login-form'>
         <h1>Login Form 🐞</h1>
         {/* Coloque a mensagem de erro de login na div abaixo. Mostre a div somente se houver uma mensagem de erro. */}
-        <div className='errorMessage'></div>
+        
+        {
+          errorMessage && 
+          <div className='errorMessage'>{errorMessage}</div>
+        }  
+        
         <div className='row'>
           <label htmlFor={'email'}>Email</label>
           <input 
@@ -45,7 +70,7 @@ export default function LoginForm() {
         </div>
 
         <div className='button'>
-          <button disabled={disabled} onClick={() => login({email: 'mail@mail.com', password: '123'})}>Login</button>
+          <button disabled={disabled} onClick={handleClick}>Login</button>
         </div>
       </div>
     </div>

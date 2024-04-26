@@ -1,3 +1,9 @@
+/**
+ * 
+ * @param {{email: string; password: string}} param0 
+ * @returns {Promise<void>} 
+ * 
+ */
 export function login({ email, password }) {
   const delay = (0.7 + Math.random() * 2) * 1000;
 
